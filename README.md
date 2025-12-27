@@ -1,98 +1,185 @@
-# AI-Driven-Race-Analytics-Platform
-Built an AI-driven race analytics platform using Python and ML to analyze motorsport sessions. Implemented time-series forecasting, clustering, and interactive visualizations to study driver performance, tyre strategies, pit stops, and track evolution with a scalable, cloud-ready design.
+# F1 Race Replay 🏎️ 🏁
 
-## Vision
-The goal of this project is to become a **data-first, AI-powered analytics platform** for motorsport race analysis. It is designed for users who enjoy exploring **telemetry, strategy, performance trends, and race dynamics** using machine learning and interactive visualizations.
+A Python application for visualizing Formula 1 race telemetry and replaying race events with interactive controls and a graphical interface.
 
-The vision is to create a **personal race analytics dashboard** where users can replay sessions, analyze driver and team strategies, and gain deeper insights using AI-driven models—similar to having a **virtual pit wall powered by data science**.
+![Race Replay Preview](./resources/preview.png)
+
+## Features
+
+- **Race Replay Visualization:** Watch the race unfold with real-time driver positions on a rendered track.
+- **Leaderboard:** See live driver positions and current tyre compounds.
+- **Lap & Time Display:** Track the current lap and total race time.
+- **Driver Status:** Drivers who retire or go out are marked as "OUT" on the leaderboard.
+- **Interactive Controls:** Pause, rewind, fast forward, and adjust playback speed using on-screen buttons or keyboard shortcuts.
+- **Legend:** On-screen legend explains all controls.
+- **Driver Telemetry Insights:** View speed, gear, DRS status, and current lap for selected drivers when selected on the leaderboard.
+
+## Controls
+
+- **Pause/Resume:** SPACE or Pause button
+- **Rewind/Fast Forward:** ← / → or Rewind/Fast Forward buttons
+- **Playback Speed:** ↑ / ↓ or Speed button (cycles through 0.5x, 1x, 2x, 4x)
+- **Set Speed Directly:** Keys 1–4
+
+## Qualifying Session Support (in development)
+
+Recently added support for Qualifying session replays with telemetry visualization including speed, gear, throttle, and brake over the lap distance. This feature is still being refined.
+
+## Requirements
+
+- Python 3.8+
+- [FastF1](https://github.com/theOehrly/Fast-F1)
+- [Arcade](https://api.arcade.academy/en/latest/)
+- numpy
+
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+FastF1 cache folder will be created automatically on first run. If it is not created, you can manually create a folder named `.fastf1-cache` in the project root.
+
+## Environment Setup
+
+To get started with this project locally, you can follow these steps:
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/IAmTomShaw/f1-race-replay
+    cd f1-race-replay
+    ```
+2. **Create a Virtual Environment:**
+    This process differs based on your operating system.
+    - On macOS/Linux:
+      ```bash
+      python3 -m venv venv
+      source venv/bin/activate
+      ```
+    - On Windows:
+      ```bash
+      python -m venv venv
+      .\venv\Scripts\activate
+      ```
+3. **Install Dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Run the Application:**
+    You can now run the application using the instructions in the Usage section below.
+
+## Usage
+
+**NEW GUI MENU:** To use the new GUI menu system, you can simply run:
+```bash
+python main.py --gui
+```
+This will open a graphical interface where you can select the year and round of the race weekend you want to replay. This is still a new feature, so please report any issues you encounter.
+
+**NEW CLI MENU:** To use the new CLI menu system, you can simply run:
+```bash
+python main.py --cli
+```
+This will prompt you with series of questions and a list of options to make your choice from.
+
+If you would prefer to use the command line arguments directly, you can do so as follows:
+
+Run the main script and specify the year and round:
+```bash
+python main.py --year 2025 --round 12
+```
+
+To run without HUD:
+```bash
+python main.py --year 2025 --round 12 --no-hud
+```
+
+To run a Sprint session (if the event has one), add `--sprint`:
+```bash
+python main.py --year 2025 --round 12 --sprint
+```
+
+The application will load a pre-computed telemetry dataset if you have run it before for the same event. To force re-computation of telemetry data, use the `--refresh-data` flag:
+```bash
+python main.py --year 2025 --round 12 --refresh-data
+```
+
+### Search Round Numbers (including Sprints)
+
+To find the round number for a specific Grand Prix event, you can use the `--list-rounds` flag along with the year to return a list of events and their corresponding round numbers:
+```bash
+python main.py --year 2025 --list-rounds
+```
+
+To return a list of events that include Sprint sessions, use the `--list-sprints` flag:
+```bash
+python main.py --year 2025 --list-sprints
+```
+
+### Qualifying Session Replay
+
+To run a Qualifying session replay, use the `--qualifying` flag:
+```bash
+python main.py --year 2025 --round 12 --qualifying
+```
+
+To run a Sprint Qualifying session (if the event has one), add `--sprint`:
+```bash
+python main.py --year 2025 --round 12 --qualifying --sprint
+```
+
+## File Structure
+
+```
+f1-race-replay/
+├── main.py                    # Entry point, handles session loading and starts the replay
+├── requirements.txt           # Python dependencies
+├── README.md                  # Project documentation
+├── roadmap.md                 # Planned features and project vision
+├── resources/
+│   └── preview.png           # Race replay preview image
+├── src/
+│   ├── f1_data.py            # Telemetry loading, processing, and frame generation
+│   ├── arcade_replay.py      # Visualization and UI logic
+│   └── ui_components.py      # UI components like buttons and leaderboard
+│   ├── interfaces/
+│   │   └── qualifying.py     # Qualifying session interface and telemetry visualization
+│   │   └── race_replay.py    # Race replay interface and telemetry visualization
+│   └── lib/
+│       └── tyres.py          # Type definitions for telemetry data structures
+│       └── time.py           # Time formatting utilities
+└── .fastf1-cache/            # FastF1 cache folder (created automatically upon first run)
+└── computed_data/            # Computed telemetry data (created automatically upon first run)
+```
+
+## Customization
+
+- Change track width, colors, and UI layout in `src/arcade_replay.py`.
+- Adjust telemetry processing in `src/f1_data.py`.
+
+## Contributing
+
+There have been several contributions from the community that have helped enhance this project. I have added a [contributors.md](./contributors.md) file to acknowledge those who have contributed features and improvements.
+
+If you would like to contribute, feel free to:
+
+- Open pull requests for UI improvements or new features.
+- Report issues on GitHub.
+
+Please see [roadmap.md](./roadmap.md) for planned features and project vision.
+
+# Known Issues
+
+- The leaderboard appears to be inaccurate for the first few corners of the race. The leaderboard is also temporarily affected by a driver going in the pits. At the end of the race, the leaderboard is sometimes affected by the drivers' final x,y positions being further ahead than other drivers. These are known issues caused by inaccuracies in the telemetry and are being worked on for future releases. It's likely that these issues will be fixed in stages as improving the leaderboard accuracy is a complex task.
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## ⚠️ Disclaimer
+
+No copyright infringement intended. Formula 1 and related trademarks are the property of their respective owners. All data used is sourced from publicly available APIs and is used for educational and non-commercial purposes only.
 
 ---
 
-## Primary Goals
-
-### 1. Interactive Dashboard & Navigation
-- Build a clean, intuitive dashboard-style UI for navigating race weekends, sessions, drivers, and analysis views  
-- Support multiple views such as race replay, lap-by-lap analysis, and comparative driver insights  
-- Ensure the UI is modular and scalable as new features are added  
-
-### 2. Advanced Race Insight Visualizations
-Develop interactive charts and plots to analyze:
-- Tyre strategies and degradation  
-- Pit stop timing and impact  
-- Track evolution  
-- Driver pace consistency and gaps  
-
-Python-based visualization tools (**Matplotlib, Seaborn, Plotly**) are used to ensure clarity and analytical depth.
-
-### 3. AI & ML-Driven Analysis
-Integrate machine learning models to:
-- Forecast lap times and stint performance (LSTM, Prophet)  
-- Cluster driver behavior and race strategies  
-- Identify anomalies or unusual performance patterns  
-- Explore graph-based models (GNNs) to analyze relationships between drivers, teams, and track position dynamics  
-
-### 4. Session Expansion
-- Extend support beyond races to include practice sessions (FP1, FP2, FP3)  
-- Add qualifying analysis  
-- Combine telemetry-style analysis with position-based replay to compare runs, tyre choices, and lap evolution  
-
----
-
-## Performance Enhancements & User Experience
-
-As the project scales, performance and usability are key priorities.
-
-### Optimized Data Pipelines
-- Improve preprocessing and ETL pipelines to handle large datasets efficiently  
-- Reduce computation time during replays and visual updates  
-
-### Smooth Rendering & Responsiveness
-- Minimize UI lag during race replays, especially on lower-end systems  
-- Profile and optimize rendering and data-fetching bottlenecks  
-
-### De-cluttered UI
-- Introduce toggle-based views and preset analysis modes (e.g., Strategy View, Pace View)  
-- Allow users to focus on the insights that matter most  
-
----
-
-## Tech Stack & Skills Used
-
-- **Languages:** Python, SQL  
-- **ML & AI:** Scikit-learn, PyTorch, TensorFlow, Time-Series Models, Reinforcement Learning  
-- **Data & Visualization:** Pandas, NumPy, Matplotlib, Seaborn, Plotly  
-- **Systems & MLOps:** Docker, AWS, CI/CD, modular pipelines  
-- **Design Focus:** Scalable architecture, performance optimization, clean UI/UX  
-
----
-
-## Contributions
-
-Contributions are welcome from developers and data enthusiasts interested in **AI, motorsport analytics, or data visualization**.
-
-To contribute:
-- Open an issue for bugs, enhancements, or feature requests  
-- Pick an existing issue or propose a new feature aligned with the roadmap  
-- Submit focused pull requests with clear descriptions and references  
-- Include screenshots, charts, or recordings for UI or visualization changes  
-
-Constructive feedback and collaboration are encouraged.
-
----
-
-## Project Management & Transparency
-
-This is one of my first open-source projects with active community contributions. The goal is to maintain **clear communication, structured development, and transparency** as the project evolves.
-
-This roadmap will be updated as features are implemented and priorities change based on feedback and learning.
-
----
-
-## Get in Touch
-
-- **LinkedIn:** Kavya Bhalla  
-- **Email:** kavybhalla17@gmail.com
-- **Portfolio:** https://kavyaportfolioweb.netlify.app/ 
-
-Looking forward to building something impactful at the intersection of **AI, systems, and real-world data analysis**
-
+Built with ❤️ by [Tom Shaw](https://tomshaw.dev)
