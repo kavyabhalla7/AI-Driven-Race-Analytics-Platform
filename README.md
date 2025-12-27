@@ -91,8 +91,8 @@ This roadmap will be updated as features are implemented and priorities change b
 ## Get in Touch
 
 - **LinkedIn:** Kavya Bhalla  
-- **Email:** kavybhalla17@gmail.com.com  
-- **Portfolio:**  https://kavyaportfolioweb.netlify.app/ 
+- **Email:** kavybhalla17@gmail.com
+- **Portfolio:** https://kavyaportfolioweb.netlify.app/ 
 
 Looking forward to building something impactful at the intersection of **AI, systems, and real-world data analysis**
 
